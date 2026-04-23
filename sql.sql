@@ -59,3 +59,30 @@ fetch orders from july onwards
 SELECT orderinfo_id, date_placed
 FROM orderinfo
 WHERE date_placed > '2000-07-01'
+
+fetch all items that are priced between 10 and 20 pesos
+SELECT description, sell_price
+FROM item
+WHERE sell_price >= 10 AND sell_price <= 20
+
+fetch all orders for the month of september
+
+SELECT orderinfo_id, date_placed AS 'date ordered'
+FROM orderinfo
+WHERE date_placed >= '2000-09-01' AND date_placed <= '2000-09-30' 
+
+FETCH all customers from the towns nicetown, bingham and milltown
+
+ SELECT fname, lname, town
+ FROM customer
+ WHERE town = 'bingham' OR town = 'nicetown' OR town = 'milltown'
+
+SELECT fname, lname, town
+ FROM customer
+ WHERE town IN ('bingham','nicetown','milltown')
+
+ fetch all customers that have mr on their title and living on bingham
+
+ SELECT title, fname, lname, town
+ FROM customer
+ WHERE town = 'bingham' AND title = 'mr'
