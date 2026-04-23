@@ -130,4 +130,7 @@ SELECT *
  FROM customer
  WHERE town NOT IN ('bingham','nicetown','milltown')
 
-
+FETCH all items that has a 's' on their description
+ SELECT description, cost_price
+ FROM item
+ WHERE  description LIKE '%s%'
