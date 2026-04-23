@@ -86,3 +86,48 @@ SELECT fname, lname, town
  SELECT title, fname, lname, town
  FROM customer
  WHERE town = 'bingham' AND title = 'mr'
+
+ fetch customer 1 to 5
+ SELECT * 
+ FROM customer
+ WHERE customer_id BETWEEN 1 AND 5
+
+ fetch all orders for the month of september
+
+SELECT orderinfo_id, date_placed AS 'date ordered'
+FROM orderinfo
+WHERE date_placed BETWEEN '2000-09-30' AND '2000-09-01' 
+
+SELECT * 
+ FROM customer
+ WHERE customer_id BETWEEN 5 AND 1
+
+  SELECT title, fname, lname, town
+ FROM customer
+ WHERE BINARY town = 'bingham' 
+
+ fetch all customers whose last name start with an 'h'
+ SELECT lname, fname
+ FROM customer
+ WHERE lname LIKE 'h%'
+
+ fetch all customers with exactly four characters on their first name
+
+ SELECT lname, fname
+ FROM customer
+ WHERE fname LIKE '____'
+
+ fetch all items with a 9 on their cost_price
+ SELECT description, cost_price
+ FROM item
+ WHERE cost_price NOT LIKE '%9%'
+
+  SELECT title, fname, lname, town
+ FROM customer
+ WHERE BINARY town != 'Bingham'
+
+ SELECT fname, lname, town
+ FROM customer
+ WHERE town NOT IN ('bingham','nicetown','milltown')
+
+
