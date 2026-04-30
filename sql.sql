@@ -140,4 +140,11 @@ FETCH all items that has a 's' on their description
 SELECT o.orderinfo_id , c.customer_id, c.fname, c.lname, o.date_placed, o.shipping 
 FROM customer c, orderinfo o
 WHERE c.customer_id = o.customer_id
-AND cr.customer_id = 8;
+AND c.fname = 'ann' AND c.lname = "stones"
+-- AND c.customer_id = 8;
+
+fetch all customers that placed an order for the month of march.
+ SELECT o.orderinfo_id , c.customer_id, c.fname, c.lname, o.date_placed, o.shipping 
+FROM customer c, orderinfo o
+WHERE c.customer_id = o.customer_id
+AND o.date_placed BETWEEN '2000-03-01' AND '2000-03-31'
