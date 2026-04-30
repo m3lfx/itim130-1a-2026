@@ -240,7 +240,13 @@ INSERT INTO customer (customer_id, lname, fname, title, addressline, town, zipco
 VALUES (16, 'dave', 'grohl', 'mr', 'tenement', 'taguig', 4108, '0989999')
 
 INSERT INTO customer (lname, fname, title, addressline, town, zipcode, phone) 
-VALUES ('mike', 'jones', 'mr', 'upper blc', 'taguig', 4108, '01828238')
+VALUES ('mike', 'jones', 'mister', 'upper blc', 'taguig', 4108, '01828238')
+
+INSERT INTO customer (fname, title, addressline, town, zipcode, phone) 
+VALUES ('jones', 'mister', 'upper blc', 'taguig', 4108, '01828238')
+
+INSERT INTO customer (lname, fname, title, addressline, town, zipcode, phone) 
+VALUES (NULL, 'jones', 'mister', 'upper blc', 'taguig', 4108, '01828238')
 
 
 
