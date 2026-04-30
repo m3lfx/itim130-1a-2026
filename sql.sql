@@ -324,5 +324,15 @@ FROM orderinfo;
 
 SELECT date_add(now(), INTERVAL 10 year)
 SELECT date_add(now(), INTERVAL 5 MONTH)
-SELECT monthname(date_add(now(), INTERVAL 5 MONTH))
+SELECT dayname(date_add(now(), INTERVAL 10 MONTH))
+
+select date_format(date_add(now(), INTERVAL 24 HOUR), '%M %d, %Y %h:%i.%s %p')
+
+SELECT date_add(now(), INTERVAL -20 YEAR)
+
+SELECT dayname(date_add(now(), INTERVAL -10 MONTH))
+
+SELECT date_add(now(), INTERVAL -100 YEAR)
+
+INSERT INTO orderinfo(customer_id, date_placed, date_shipped, shipping) VALUES(22, now(), date_add(now(), INTERVAL 3 DAY), 100)
 
