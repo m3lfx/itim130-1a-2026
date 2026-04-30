@@ -167,3 +167,20 @@ FROM customer c, orderinfo o, orderline ol, item i
 WHERE c.customer_id = o.customer_id
 AND o.orderinfo_id = ol.orderinfo_id
 AND i.item_id = ol.item_id
+
+what items did ann stones bought
+SELECT c.customer_id, c.fname, c.lname, o.orderinfo_id, o.date_placed, i.item_id, i.description
+FROM customer c, orderinfo o, orderline ol, item i
+WHERE c.customer_id = o.customer_id
+AND o.orderinfo_id = ol.orderinfo_id
+AND i.item_id = ol.item_id
+AND c.lname = 'stones' 
+AND c.fname = "ann"
+
+list all products that were bought for the month of july
+
+SELECT i.description, monthname(o.date_placed), ol.quantity
+FROM  orderinfo o, orderline ol, item i
+WHERE o.orderinfo_id = ol.orderinfo_id
+AND i.item_id = ol.item_id
+AND o.date_placed BETWEEN '2000-07-01' AND '2000-07-31'
