@@ -246,8 +246,47 @@ INSERT INTO customer (fname, title, addressline, town, zipcode, phone)
 VALUES ('jones', 'mister', 'upper blc', 'taguig', 4108, '01828238')
 
 INSERT INTO customer (lname, fname, title, addressline, town, zipcode, phone) 
-VALUES (NULL, 'jones', 'mister', 'upper blc', 'taguig', 4108, '01828238')
+VALUES ('hammet', 'kirk', 'mister', NULL, 'taguig', 4108, '01828238')
 
+INSERT INTO customer (lname, fname, title, addressline, town, zipcode, phone) 
+VALUES ('mustaine', 'dave', 'ms', 'brgy town center', 'alabang', 4108, '999999'), ('layne', 'staley', 'mr', 'new york', 'cubao', 1305, '777777')
 
+ADD NEW ORDERS
 
+INSERT INTO orderinfo(customer_id, date_placed, date_shipped, shipping) VALUES(22, '2026-04-30', '2026-04-30', 100)
+
+INSERT INTO orderline (orderinfo_id, item_id, quantity) VALUES(22, 10, 2),(22, 11, 5)
+
+INSERT INTO orderinfo(customer_id, date_placed, date_shipped, shipping) VALUES('tt', '2026-04-30', '2026-04-30', 100)
+
+INSERT INTO orderinfo(customer_id, date_placed, date_shipped, shipping) VALUES(22, 'fdsfdsfdsfds', '2026-04-30', 100)
+
+12345.67
+
+INSERT INTO orderinfo(customer_id, date_placed, date_shipped, shipping) VALUES(22, 'fdsfdsfdsfds', '2026-04-30', 999999.99)
+
+INSERT INTO orderinfo(customer_id, date_placed, date_shipped, shipping) VALUES(22, 'fdsfdsfdsfds', '2026-04-30', -67.89)
+
+INSERT INTO item (description, cost_price, sell_price) VALUES('shoes', 100, 150)
+
+INSERT INTO stock(item_id, quantity) VALUES(12, 100)
+
+INSERT INTO orderinfo(orderinfo_id,customer_id, date_placed, date_shipped, shipping) VALUES(12, 22, now(), now(), 19)
+
+UPDATE item SET sell_price = 150 
+WHERE item_id = 10
+
+increase selling price of items 1 - 5 by 10 pesos
+UPDATE item SET sell_price = sell_price + 10
+WHERE item_id BETWEEN 1 AND 5
+
+UPDATE item SET  sell_price = cost_price + 10 ,cost_price = cost_price + 5
+
+DELETE FROM customer WHERE customer_id = 19
+DELETE FROM item WHERE item_id = 12
+
+TRUNCATE item
+
+DELETE c, o FROM  customer c INNER JOIN orderinfo o ON c.customer_id = o.customer_id
+WHERE c.customer_id = 22
 
