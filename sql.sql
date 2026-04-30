@@ -322,3 +322,7 @@ SELECT date_format(now(), '%a %D of %M %Y')
 SELECT orderinfo_id, date_format(date_shipped, '%M %d, %Y') AS 'shipping date'
 FROM orderinfo;
 
+SELECT date_add(now(), INTERVAL 10 year)
+SELECT date_add(now(), INTERVAL 5 MONTH)
+SELECT monthname(date_add(now(), INTERVAL 5 MONTH))
+
