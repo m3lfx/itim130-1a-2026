@@ -294,3 +294,7 @@ WHERE c.customer_id = 22
 
 LOAD DATA LOCAL INFILE 'd:/itim130-1a-2026/item.csv' INTO TABLE item FIELDS TERMINATED BY ',' (description, cost_price, sell_price);
 
+LOAD DATA LOCAL INFILE 'd:/itim130-1a-2026/cust.txt' INTO TABLE customer FIELDS TERMINATED BY ',' (title,lname,fname,addressline,town,phone,zipcode);
+
+mysqlimport  --local -p --user=root --fields-terminated-by=, --columns=title,lname,fname,addressline,town,phone,zipcode db_1a  d:/itim130-1a-2026/cust.txt 
+
