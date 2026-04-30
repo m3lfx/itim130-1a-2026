@@ -184,3 +184,5 @@ FROM  orderinfo o, orderline ol, item i
 WHERE o.orderinfo_id = ol.orderinfo_id
 AND i.item_id = ol.item_id
 AND o.date_placed BETWEEN '2000-07-01' AND '2000-07-31'
+
+fetch all customers that bought tissue paper 
