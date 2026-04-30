@@ -227,6 +227,14 @@ INNER JOIN orderline ol USING (orderinfo_id)
 INNER JOIN item i USING (item_id)
 WHERE c.town IN ('bingham', 'nicetown')
 
+fetch customers that has an 's' on their last name, their  orders and their items
+
+SELECT c.lname, o.orderinfo_id, o.date_placed, i.description, ol.quantity
+FROM customer c INNER JOIN orderinfo o ON c.customer_id = o.customer_id
+INNER JOIN orderline ol ON o.orderinfo_id = ol.orderinfo_id
+INNER JOIN item i ON i.item_id = ol.item_id
+WHERE c.lname LIKE '%s%'
+
 
 
 
