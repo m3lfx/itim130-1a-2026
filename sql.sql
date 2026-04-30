@@ -211,4 +211,22 @@ INNER JOIN item i ON i.item_id = ol.item_id
 WHERE i.sell_price > 10
 ORDER BY c.lname DESC
 
+fetch all customers that bought tissue paper 
+
+SELECT concat(c.fname, " ", c.lname) as name, i.description, ol.quantity
+FROM customer c INNER JOIN orderinfo o ON c.customer_id = o.customer_id
+INNER JOIN orderline ol ON o.orderinfo_id = ol.orderinfo_id
+INNER JOIN item i ON i.item_id = ol.item_id
+WHERE i.description = 'tissues'
+
+fetch all items that were bought by customers from bingham and nicetown
+
+SELECT o.orderinfo_id, concat(c.fname, " ", c.lname) as name, c.town, i.description, ol.quantity
+FROM customer c INNER JOIN orderinfo o USING (customer_id)
+INNER JOIN orderline ol USING (orderinfo_id)
+INNER JOIN item i USING (item_id)
+WHERE c.town IN ('bingham', 'nicetown')
+
+
+
 
