@@ -201,3 +201,14 @@ WHERE c.customer_id = o.customer_id
 AND o.orderinfo_id = ol.orderinfo_id
 AND i.item_id = ol.item_id
 AND c.town IN ('bingham', 'nicetown')
+
+inner join
+fetch all customers that bought items that are price above 10 pesos
+SELECT c.fname, c.lname, o.orderinfo_id, i.description, i.sell_price
+FROM customer c INNER JOIN orderinfo o ON c.customer_id = o.customer_id
+INNER JOIN orderline ol ON o.orderinfo_id = ol.orderinfo_id
+INNER JOIN item i ON i.item_id = ol.item_id
+WHERE i.sell_price > 10
+ORDER BY c.lname DESC
+
+
