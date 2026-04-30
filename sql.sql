@@ -296,5 +296,29 @@ LOAD DATA LOCAL INFILE 'd:/itim130-1a-2026/item.csv' INTO TABLE item FIELDS TERM
 
 LOAD DATA LOCAL INFILE 'd:/itim130-1a-2026/cust.txt' INTO TABLE customer FIELDS TERMINATED BY ',' (title,lname,fname,addressline,town,phone,zipcode);
 
-mysqlimport  --local -p --user=root --fields-terminated-by=, --columns=title,lname,fname,addressline,town,phone,zipcode db_1a  d:/itim130-1a-2026/cust.txt 
+mysqlimport  --local -p --user=root --fields-terminated-by=, --columns=title,lname,fname,addressline,town,phone,zipcode db_1a  d:/itim130-1a-2026/customer.txt 
+
+dates
+SELECT month('2025-06-01')
+SELECT monthname('2025-06-01')
+
+SELECT orderinfo_id, monthname(date_placed) 
+FROM orderinfo
+WHERE date_placed BETWEEN '2000-09-01' AND '2000-09-30' 
+
+SELECT orderinfo_id, monthname(date_placed) 
+FROM orderinfo
+WHERE month(date_placed) = 9 
+
+SELECT orderinfo_id, monthname(date_placed) 
+FROM orderinfo
+WHERE monthname(date_placed) = 'september'
+
+SELECT orderinfo_id, weekday(date_placed)
+FROM orderinfo;
+
+SELECT date_format(now(), '%a %D of %M %Y')
+
+SELECT orderinfo_id, date_format(date_shipped, '%M %d, %Y') AS 'shipping date'
+FROM orderinfo;
 
