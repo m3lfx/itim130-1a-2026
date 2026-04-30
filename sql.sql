@@ -290,3 +290,7 @@ TRUNCATE item
 DELETE c, o FROM  customer c INNER JOIN orderinfo o ON c.customer_id = o.customer_id
 WHERE c.customer_id = 22
 
+
+
+LOAD DATA LOCAL INFILE 'd:/itim130-1a-2026/item.csv' INTO TABLE item FIELDS TERMINATED BY ',' (description, cost_price, sell_price);
+
