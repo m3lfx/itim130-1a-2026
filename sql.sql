@@ -235,6 +235,13 @@ INNER JOIN orderline ol ON o.orderinfo_id = ol.orderinfo_id
 INNER JOIN item i ON i.item_id = ol.item_id
 WHERE c.lname LIKE '%s%'
 
+add new customers
+INSERT INTO customer (customer_id, lname, fname, title, addressline, town, zipcode, phone) 
+VALUES (16, 'dave', 'grohl', 'mr', 'tenement', 'taguig', 4108, '0989999')
+
+INSERT INTO customer (lname, fname, title, addressline, town, zipcode, phone) 
+VALUES ('mike', 'jones', 'mr', 'upper blc', 'taguig', 4108, '01828238')
+
 
 
 
