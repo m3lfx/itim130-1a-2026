@@ -159,3 +159,11 @@ SELECT o.orderinfo_id , c.customer_id, c.fname, c.lname, o.date_placed, o.shippi
 FROM customer c, orderinfo o
 WHERE c.customer_id = o.customer_id
 AND c.town IN ('bingham', 'nicetown')
+
+fetch all 'customers' orders and their items;
+
+SELECT c.customer_id, o.orderinfo_id, o.date_placed, i.item_id, i.description
+FROM customer c, orderinfo o, orderline ol, item i
+WHERE c.customer_id = o.customer_id
+AND o.orderinfo_id = ol.orderinfo_id
+AND i.item_id = ol.item_id
