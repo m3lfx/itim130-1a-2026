@@ -148,3 +148,14 @@ fetch all customers that placed an order for the month of march.
 FROM customer c, orderinfo o
 WHERE c.customer_id = o.customer_id
 AND o.date_placed BETWEEN '2000-03-01' AND '2000-03-31'
+
+fetch all orders and their customers that live in bingham or nicetown.
+SELECT o.orderinfo_id , c.customer_id, c.fname, c.lname, o.date_placed, o.shipping, c.town 
+FROM customer c, orderinfo o
+WHERE c.customer_id = o.customer_id
+AND (c.town = 'bingham' OR c.town = 'nicetown')
+
+SELECT o.orderinfo_id , c.customer_id, c.fname, c.lname, o.date_placed, o.shipping, c.town 
+FROM customer c, orderinfo o
+WHERE c.customer_id = o.customer_id
+AND c.town IN ('bingham', 'nicetown')
