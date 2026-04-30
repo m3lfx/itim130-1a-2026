@@ -134,3 +134,10 @@ FETCH all items that has a 's' on their description
  SELECT description, cost_price
  FROM item
  WHERE  description LIKE '%s%'
+
+ fetch all orders by ann stones
+ 
+SELECT o.orderinfo_id , c.customer_id, c.fname, c.lname, o.date_placed, o.shipping 
+FROM customer c, orderinfo o
+WHERE c.customer_id = o.customer_id
+AND cr.customer_id = 8;
