@@ -186,3 +186,18 @@ AND i.item_id = ol.item_id
 AND o.date_placed BETWEEN '2000-07-01' AND '2000-07-31'
 
 fetch all customers that bought tissue paper 
+
+SELECT concat(c.fname, " ", c.lname) as name, i.description, ol.quantity
+FROM customer c, orderinfo o, orderline ol, item i
+WHERE c.customer_id = o.customer_id
+AND o.orderinfo_id = ol.orderinfo_id
+AND i.item_id = ol.item_id
+AND i.description = 'tissues'
+
+fetch all items that were bought by customers from bingham and nicetown
+SELECT o.orderinfo_id, concat(c.fname, " ", c.lname) as name, c.town, i.description, ol.quantity
+FROM customer c, orderinfo o, orderline ol, item i
+WHERE c.customer_id = o.customer_id
+AND o.orderinfo_id = ol.orderinfo_id
+AND i.item_id = ol.item_id
+AND c.town IN ('bingham', 'nicetown')
