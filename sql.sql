@@ -336,3 +336,108 @@ SELECT date_add(now(), INTERVAL -100 YEAR)
 
 INSERT INTO orderinfo(customer_id, date_placed, date_shipped, shipping) VALUES(22, now(), date_add(now(), INTERVAL 3 DAY), 100)
 
+regex
+Select lname from customer where binary lname REGEXP "^S.*";
+
+Select lname from customer where binary lname REGEXP ".*on.*";
+Select lname from customer where binary lname REGEXP ".*[on].*";
+Select lname from customer where binary lname REGEXP "^[SJ]";
+
+Select strcmp('foo', 'foo');
+Select strcmp('foo', 'FOO');
+Select strcmp('foo', binary 'FOO');
+Select strcmp('foo', 'bar');
+Select ceiling(2.4), floor(2.4),round(2.67)
+Select description, MID(description,2,6), 
+UPPER(description) 
+FROM item where item_id = 6;
+
+Select ASCII('A'),
+Char(65,66,67),
+Concat('hello',0x20,0x57, 'orld');
+
+CREATE TABLE testcolcons (
+Colnotnull INT NOT NULL,
+Colprikey INT NOT NULL PRIMARY KEY,
+Coldefault INT DEFAULT 42);
+
+INSERT INTO testcolcons(colnotnull, colprikey,coldefault)
+	values(1,1,1);
+INSERT INTO testcolcons(colnotnull, colprikey,coldefault)
+	values(2,2,NULL);
+INSERT INTO testcolcons(colnotnull, colprikey,coldefault)
+	values(NULL,3,NULL);
+INSERT INTO testcolcons(colnotnull, colprikey,coldefault)
+	values(3,2,NULL);
+INSERT INTO testcolcons(colnotnull, colprikey,coldefault)
+	values(3,3);
+    INSERT INTO testcolcons(colnotnull, colprikey)
+	values(3,3);
+Select * from testcolcons;
+UPDATE testcolcons SET colprikey = 2 where colnotnul=3;
+
+Create table ttconst (
+	mykey1 INT,
+    mykey2 INT NOT NULL, 
+    mystring varchar(15) NOT NULL, 
+    CONSTRAINT cs1 UNIQUE(mykey1),
+    CONSTRAINT cs2 PRIMARY KEY(mykey2,mystring));
+
+Insert into ttconst values(1,2, 'Amy Jones');
+Insert into ttconst values(1,2, 'Dave jones');
+Insert into ttconst values(2,2, 'Dave jones');
+Insert into ttconst values(3,2, 'Amy Jones');
+
+CREATE TABLE c2 select fname,lname,zipcode FROM customer
+	WHERE (town='bingham') OR (town = 'Nicetown');
+
+ALTER TABLE c2 ADD COLUMN last_contact date AFTER zipcode;
+ALTER TABLE c2 CHANGE COLUMN zipcode zipcode2 char(15);
+DESCRIBE c2;
+SELECT * FROM c2;
+ALTER TABLE c2 CHANGE COLUMN fname fname char(32) NOT NULL ;
+ALTER TABLE c2 ADD PRIMARY KEY(fname,lname);
+ALTER TABLE c2 DROP PRIMARY KEY;
+
+INSERT INTO c2(fname,lname,zipcode2) VALUES('ann', 'stones','4444');
+
+CREATE TABLE orderinfo (
+    orderinfo_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,customer_id INT NOT NULL, 
+    date_placed date NOT NULL,
+    date_shipped date,
+    shipping numeric(7,2),
+    status enum('processing', 'delivered', 'canceled') NOT NULL DEFAULT 'processing',
+    INDEX(customer_id),
+    CONSTRAINT fk_orderinfo_customer FOREIGN KEY(customer_id) REFERENCES customer(customer_id)
+); 
+
+INSERT INTO orderinfo(customer_id, date_placed, date_shipped, shipping, status) VALUES(21, now(), now(), 100, 'processing')
+
+INSERT INTO orderinfo(customer_id, date_placed, date_shipped, shipping, status) VALUES(1, now(), now(), 100, 'processing')
+
+DELETE FROM orderinfo WHERE customer_id = 21;
+DELETE FROM customer WHERE customer_id = 21; 
+
+CREATE TABLE orderline( 
+    orderinfo_id INT NOT NULL,
+    item_id INT NOT NULL,
+    quantity INT NOT NULL,
+    PRIMARY KEY(orderinfo_id, item_id),
+    INDEX(item_id),
+    CONSTRAINT orderline_item_fk
+    FOREIGN KEY (item_id)
+    REFERENCES item(item_id),
+    INDEX(orderinfo_id),
+    CONSTRAINT orderline_orderinfo_fk
+    FOREIGN KEY(orderinfo_id)
+    REFERENCES orderinfo(orderinfo_id)
+    );
+
+INSERT INTO orderline(orderinfo_id, item_id, quantity)
+VALUES(3,27,5),(3,28,5),(3,29,5)
+INSERT INTO orderline(orderinfo_id, item_id, quantity)
+VALUES(4,27,5)
+INSERT INTO orderline(orderinfo_id, item_id, quantity)
+VALUES(3,30,5)
+
+
