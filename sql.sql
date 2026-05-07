@@ -440,4 +440,55 @@ VALUES(4,27,5)
 INSERT INTO orderline(orderinfo_id, item_id, quantity)
 VALUES(3,30,5)
 
+User Administration
+Create new users using CREATE USER statement
+CREATE USER user IDENTIFIED BY password
 
+CREATE USER 'dbadmin1'@'localhost' IDENTIFIED BY 'p@ssw0rd';
+
+allow user to connect from any host you use the % wildcard, which means any host.
+CREATE USER superadmin9000@'%'
+IDENTIFIED BY 'p@ssw0rd';
+
+MySQL Changing Password for Accounts
+USE mysql;
+ 
+ALTER USER dbadmin1@'localhost' IDENTIFIED BY 'p@ssw0rd1234';
+ALTER USER root@localhost IDENTIFIED BY 'your password';
+ ALTER USER itim130s@localhost IDENTIFIED BY 'p@ssw0rd';
+FLUSH PRIVILEGES; 
+
+FLUSH PRIVILEGES statement to reload privileges from the grant table in the mysql database.
+
+MySQL GRANT Statement Syntax
+GRANT privileges (column_list)
+ON [object_type] privilege_level
+TO account [IDENTIFIED BY 'password']
+ 
+GRANT ALL ON db_1a.* TO 'dbadmin1'@'localhost';
+GRANT ALL ON db_1a.* to 'itim130s'@'localhost';
+
+GRANT ALL ON db_1a.* to itim130s1a@'%' IDENTIFIED BY 'password';
+
+GRANT SELECT(fname,lname,phone)  ON db_1a.customer TO 'user500'@'localhost' IDENTIFIED BY 'password';
+FLUSH PRIVILEGES;
+
+
+GRANT SELECT, UPDATE, DELETE  ON db_1a.item to 'user500'@'localhost' 
+SHOW GRANTS FOR user4;
+
+GRANT SELECT ON <database name>.<view name> TO <user>@<host> IDENTIFIED BY '<password>
+
+GRANT EXECUTE ON <database name>.<procedure name> TO <user>@<host> IDENTIFIED BY '<password>'
+
+SHOW GRANTS FOR 'root';
+REVOKE DELETE ON db_1a.item from user500@localhost;
+FLUSH PRIVILEGES;
+
+mysql backup /restore using mysqldump
+mysqldump -u [username] -p[password] [database_name,db2,db3...] > /path/to/[dump_file.sql]
+mysql -u [uname] -p[pass] [db_to_restore] < [backupfile.sql]
+
+mysqldump -uroot -p db_1a > d:/itim130-1a-2026/db_1a_20260507.sql
+
+mysql -uroot -p db_1a < d:/itim130-1a-2026/db_1a_20260507.sql
