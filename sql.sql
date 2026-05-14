@@ -646,3 +646,9 @@ LIMIT 3
 INSERT INTO orderinfo(customer_id, date_placed, date_shipped, shipping) VALUES( 1, '2026-06-05', '2026-06-05', 19);
 INSERT INTO orderline(orderinfo_id, item_id, quantity)
 VALUES(11,2,9),(11,3,2),(11,4,7);
+
+LEFT JOIN 
+fetch all customer(including customers with no orders) and their orders.
+SELECT o.orderinfo_id, c.lname, c.fname, o.date_placed, ol.item_id, ol.quantity, i.description
+FROM customer c LEFT JOIN orderinfo o ON c.customer_id = o.customer_id LEFT JOIN orderline ol ON o.orderinfo_id = ol.orderinfo_id LEFT JOIN item i ON i.item_id = ol.item_id
+WHERE i.description IS  NULL
