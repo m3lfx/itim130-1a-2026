@@ -583,6 +583,18 @@ SELECT  sum(i.sell_price * ol.quantity) AS `total income`, ol.orderinfo_id
 FROM item i INNER JOIN orderline ol ON i.item_id = ol.item_id
 GROUP BY ol.orderinfo_id
 
-what is the income for the month of september
+what is the income for the month of may
+SELECT sum(i.sell_price * ol.quantity), monthname(o.date_placed) 
+FROM orderinfo o INNER JOIN orderline ol ON o.orderinfo_id = ol.orderinfo_id
+INNER JOIN item i ON i.item_id = ol.item_id
+WHERE monthname(o.date_placed) = 'may'
 
 get the monthly income
+SELECT sum(i.sell_price * ol.quantity), monthname(o.date_placed) 
+FROM orderinfo o INNER JOIN orderline ol ON o.orderinfo_id = ol.orderinfo_id
+INNER JOIN item i ON i.item_id = ol.item_id
+GROUP BY monthname(o.date_placed)
+
+INSERT INTO orderinfo(customer_id, date_placed, date_shipped, shipping) VALUES( 3, '2026-06-05', '2026-06-05', 19);
+INSERT INTO orderline(orderinfo_id, item_id, quantity)
+VALUES(10,2,9),(10,3,2),(10,4,7);
