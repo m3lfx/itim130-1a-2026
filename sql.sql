@@ -426,11 +426,13 @@ CREATE TABLE orderline(
     INDEX(item_id),
     CONSTRAINT orderline_item_fk
     FOREIGN KEY (item_id)
-    REFERENCES item(item_id),
+    REFERENCES item(item_id)
+    ON DELETE CASCADE,
     INDEX(orderinfo_id),
     CONSTRAINT orderline_orderinfo_fk
     FOREIGN KEY(orderinfo_id)
     REFERENCES orderinfo(orderinfo_id)
+    ON DELETE CASCADE
     );
 
 INSERT INTO orderline(orderinfo_id, item_id, quantity)
@@ -439,6 +441,8 @@ INSERT INTO orderline(orderinfo_id, item_id, quantity)
 VALUES(4,27,5)
 INSERT INTO orderline(orderinfo_id, item_id, quantity)
 VALUES(3,30,5)
+
+
 
 User Administration
 Create new users using CREATE USER statement
@@ -492,3 +496,63 @@ mysql -u [uname] -p[pass] [db_to_restore] < [backupfile.sql]
 mysqldump -uroot -p db_1a > d:/itim130-1a-2026/db_1a_20260507.sql
 
 mysql -uroot -p db_1a < d:/itim130-1a-2026/db_1a_20260507.sql
+
+cascade delete
+
+ALTER TABLE orderinfo DROP FOREIGN KEY fk_orderinfo_customer;
+ALTER TABLE orderinfo
+ADD CONSTRAINT fk_customer 
+FOREIGN KEY (customer_id) 
+REFERENCES customer(customer_id) 
+ON DELETE CASCADE;
+
+INSERT INTO orderinfo(customer_id, date_placed, date_shipped, shipping) VALUES( 2, now(), now(), 19);
+INSERT INTO orderline(orderinfo_id, item_id, quantity)
+VALUES(8,1,9),(8,2,2),(8,3,7)
+
+aggregate functions 
+
+get the total number of customers
+SELECT count(*) FROM customer;
+
+count the number of customers living in bingham
+ select count(*) as total, town from customer where town = 'bingham';
+
+count the number of customer per town
+SELECT count(town), town
+FROM customer
+GROUP BY town
+
+
+get the total number of products sold
+SELECT sum(quantity) from orderline;
+
+get the total items bought by customers from bingham
+
+how many items were in order number 6
+
+
+get the total items for each order
+
+fetch all items and their total quantity sold.
+
+TOP 5 popular products
+
+SELECT avg(quantity)
+from orderline
+
+SELECT max(sell_price)
+from item
+
+SELECT min(sell_price)
+from item
+
+get the total amount paid for order number 6
+
+get the income of the shop
+
+get the total for each order
+
+what is the income for the month of september
+
+get the monthly income
