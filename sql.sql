@@ -627,6 +627,22 @@ GROUP BY c.customer_id
 HAVING total > 500
 ORDER BY total DESC
 
+how much did each product earned
+SELECT sum(i.sell_price * ol.quantity) as `total for each product`, i.description 
+FROM item i INNER JOIN orderline ol ON i.item_id = ol.item_id
+GROUP BY i.description
+ORDER BY `total for each product` DESC
+
+
+top 3 earning products 
+ELECT sum(i.sell_price * ol.quantity) as `total for each product`, i.description 
+FROM item i INNER JOIN orderline ol ON i.item_id = ol.item_id
+GROUP BY i.description
+ORDER BY `total for each product` DESC
+LIMIT 3
+
+
+
 INSERT INTO orderinfo(customer_id, date_placed, date_shipped, shipping) VALUES( 1, '2026-06-05', '2026-06-05', 19);
 INSERT INTO orderline(orderinfo_id, item_id, quantity)
 VALUES(11,2,9),(11,3,2),(11,4,7);
