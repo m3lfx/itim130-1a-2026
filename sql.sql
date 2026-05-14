@@ -528,15 +528,37 @@ get the total number of products sold
 SELECT sum(quantity) from orderline;
 
 get the total items bought by customers from bingham
+INSERT INTO orderinfo(customer_id, date_placed, date_shipped, shipping) VALUES( 7, now(), now(), 19);
+INSERT INTO orderline(orderinfo_id, item_id, quantity)
+VALUES(9,1,9),(9,5,2),(9,4,7);
 
-how many items were in order number 6
+SELECT sum(ol.quantity) as `total items sold`, c.town 
+FROM customer c INNER JOIN orderinfo o ON c.customer_id = o.customer_id INNER JOIN orderline ol ON o.orderinfo_id = ol.orderinfo_id 
+WHERE c.town = 'bingham'
+
+how many items were in order number 7
+SELECT sum(quantity), orderinfo_id
+FROM orderline
+WHERE orderinfo_id = 7
 
 
 get the total items for each order
+SELECT sum(quantity), orderinfo_id
+FROM orderline
+GROUP BY orderinfo_id
 
 fetch all items and their total quantity sold.
+SELECT sum(ol.quantity), i.description 
+FROM item i INNER JOIN orderline ol ON i.item_id = ol.item_id
+WHERE i.description = 'katol'
+GROUP BY i.description
 
 TOP 5 popular products
+SELECT sum(ol.quantity) as total, i.description 
+FROM item i INNER JOIN orderline ol ON i.item_id = ol.item_id
+GROUP BY i.description
+ORDER BY total DESC
+LIMIT 5
 
 SELECT avg(quantity)
 from orderline
@@ -548,6 +570,7 @@ SELECT min(sell_price)
 from item
 
 get the total amount paid for order number 6
+
 
 get the income of the shop
 
