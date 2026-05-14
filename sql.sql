@@ -652,3 +652,172 @@ fetch all customer(including customers with no orders) and their orders.
 SELECT o.orderinfo_id, c.lname, c.fname, o.date_placed, ol.item_id, ol.quantity, i.description
 FROM customer c LEFT JOIN orderinfo o ON c.customer_id = o.customer_id LEFT JOIN orderline ol ON o.orderinfo_id = ol.orderinfo_id LEFT JOIN item i ON i.item_id = ol.item_id
 WHERE i.description IS  NULL
+
+
+
+SELECT o.orderinfo_id, c.lname, c.fname, o.date_placed
+FROM customer c LEFT JOIN orderinfo o ON c.customer_id = o.customer_id 
+
+
+SELECT o.orderinfo_id, c.lname, c.fname, o.date_placed, ol.item_id, ol.quantity
+FROM customer c LEFT JOIN orderinfo o ON c.customer_id = o.customer_id INNER JOIN orderline ol ON o.orderinfo_id = ol.orderinfo_id
+
+RIGHT JOIN
+SELECT o.orderinfo_id, c.lname, c.fname, o.date_placed
+FROM customer c RIGHT JOIN orderinfo o ON c.customer_id = o.customer_id
+
+Imports MySql.Data.MySqlClient
+
+Public Class Form1
+    Dim conn As MySqlConnection = New MySqlConnection("Data Source=localhost;Database=itim130ns;User=root;Password=")
+    'Public dbconn As New MySqlConnection
+    Public sql As String
+    Public dbcomm As MySqlCommand
+    Public dbread As MySqlDataReader
+    Public DataAdapter1 As MySqlDataAdapter
+    Public ds As DataSet
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load, Button5.Click
+        Try
+            conn.Open()
+            sql = "SELECT * FROM customers ORDER BY customer_id DESC"
+
+            DataAdapter1 = New MySqlDataAdapter(sql, conn)
+            ds = New DataSet()
+            DataAdapter1.Fill(ds, "customers")
+            DataGridView1.DataSource = ds
+            DataGridView1.DataMember = "customers"
+
+
+        Catch ex As Exception
+            MsgBox("Error in collecting data from Database. Error is :" & ex.Message)
+
+        End Try
+        conn.Close()
+
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Dim customer_id As Integer
+
+        Try
+            conn.Open()
+            customer_id = Val(TextBox1.Text)
+            sql = "SELECT * FROM customers WHERE customer_id = " & customer_id
+            Label1.Text = sql
+            dbcomm = New MySqlCommand(sql, conn)
+            dbread = dbcomm.ExecuteReader()
+            dbread.Read()
+
+            TextBox2.Text = dbread("first_name")
+            TextBox3.Text = dbread("last_name")
+            TextBox4.Text = dbread("address")
+            TextBox5.Text = dbread("city")
+            TextBox6.Text = dbread("phone")
+            TextBox7.Text = dbread("zipcode2")
+
+        Catch ex As MysqlException
+            MsgBox(ex.Message)
+        End Try
+        conn.Close()
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+
+        Dim firstName = TextBox2.Text
+        Dim lastName = TextBox3.Text
+        Dim address = TextBox4.Text
+        Dim city = TextBox5.Text
+        Dim zip = TextBox6.Text
+        Dim phone = TextBox7.Text
+        Try
+            conn.Open()
+            sql = $"INSERT INTO customers (first_name, last_name, address, city, phone, zipcode2) VALUES('{firstName}', '{lastName}', '{address}', '{city}', '{phone}', '{zip}')"
+            Label1.Text = sql
+            dbcomm = New MySqlCommand(sql, conn)
+            Dim i As Integer = dbcomm.ExecuteNonQuery
+
+            If (i > 0) Then
+                MsgBox("record saved")
+            Else
+                MsgBox("record not saved")
+
+            End If
+
+        Catch ex As MySqlException
+            MsgBox(ex.Message)
+        End Try
+        conn.Close()
+    End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        Dim customerId = Val(TextBox1.Text)
+        Dim firstName = TextBox2.Text
+        Dim lastName = TextBox3.Text
+        Dim address = TextBox4.Text
+        Dim city = TextBox5.Text
+        Dim zip = TextBox6.Text
+        Dim phone = TextBox7.Text
+        Try
+            conn.Open()
+            sql = $"UPDATE customers SET first_name = '{firstName}', last_name = '{lastName}', address = '{address}', city = '{city}', phone = '{phone}', zipcode2 = '{zip}' WHERE customer_id = {customerId}"
+            Label1.Text = sql
+            dbcomm = New MySqlCommand(sql, conn)
+            Dim i As Integer = dbcomm.ExecuteNonQuery
+
+            If (i > 0) Then
+                MsgBox("record saved")
+            Else
+                MsgBox("record not saved")
+
+            End If
+
+        Catch ex As MySqlException
+            MsgBox(ex.Message)
+        End Try
+        conn.Close()
+    End Sub
+
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        Try
+            conn.Open()
+            Dim id As Integer = InputBox("enter customer id to be deleted", "delete record")
+            Dim ans = MessageBox.Show("do you want to delete this record?", "record deleted", MessageBoxButtons.YesNoCancel)
+            If ans = DialogResult.Yes Then
+                sql = $"DELETE FROM customers WHERE customer_id = {id}"
+                dbcomm = New MySqlCommand(sql, conn)
+                Dim i As Integer = dbcomm.ExecuteNonQuery
+
+                If (i > 0) Then
+                    MsgBox("record deleted")
+                Else
+                    MsgBox("record not deleted")
+
+                End If
+            End If
+        Catch ex As MySqlException
+            MsgBox(ex.Message)
+        End Try
+        conn.Close()
+    End Sub
+
+    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+        Form2.Show()
+    End Sub
+
+    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
+        Form3.Show()
+
+    End Sub
+
+    Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
+        Form5.Show()
+
+    End Sub
+
+    Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
+        Form4.Show()
+
+    End Sub
+End Class
+
+
