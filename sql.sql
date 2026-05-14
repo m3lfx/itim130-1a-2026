@@ -613,9 +613,19 @@ SELECT sum(i.sell_price * ol.quantity) as total, c.customer_id, upper(concat(c.f
 FROM customer c INNER JOIN orderinfo o ON c.customer_id = o.customer_id
 INNER JOIN orderline ol ON o.orderinfo_id = ol.orderinfo_id
 INNER JOIN item i ON i.item_id = ol.item_id
+
 GROUP BY c.customer_id
 ORDER BY total DESC
 LIMIT 3
+
+FETCH customers that spent 500 pesos and above.
+SELECT sum(i.sell_price * ol.quantity) as total, c.customer_id, upper(concat(c.fname, " ", c.lname)) AS `full name`
+FROM customer c INNER JOIN orderinfo o ON c.customer_id = o.customer_id
+INNER JOIN orderline ol ON o.orderinfo_id = ol.orderinfo_id
+INNER JOIN item i ON i.item_id = ol.item_id
+GROUP BY c.customer_id
+HAVING total > 500
+ORDER BY total DESC
 
 INSERT INTO orderinfo(customer_id, date_placed, date_shipped, shipping) VALUES( 1, '2026-06-05', '2026-06-05', 19);
 INSERT INTO orderline(orderinfo_id, item_id, quantity)
