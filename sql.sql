@@ -598,3 +598,25 @@ GROUP BY monthname(o.date_placed)
 INSERT INTO orderinfo(customer_id, date_placed, date_shipped, shipping) VALUES( 3, '2026-06-05', '2026-06-05', 19);
 INSERT INTO orderline(orderinfo_id, item_id, quantity)
 VALUES(10,2,9),(10,3,2),(10,4,7);
+
+how much did each town spent.
+SELECT sum(i.sell_price * ol.quantity) as total, c.town
+FROM customer c INNER JOIN orderinfo o ON c.customer_id = o.customer_id
+INNER JOIN orderline ol ON o.orderinfo_id = ol.orderinfo_id
+INNER JOIN item i ON i.item_id = ol.item_id
+GROUP BY c.town
+ORDER BY total DESC
+
+
+top 3 biggest spenders
+SELECT sum(i.sell_price * ol.quantity) as total, c.customer_id, upper(concat(c.fname, " ", c.lname)) AS `full name`
+FROM customer c INNER JOIN orderinfo o ON c.customer_id = o.customer_id
+INNER JOIN orderline ol ON o.orderinfo_id = ol.orderinfo_id
+INNER JOIN item i ON i.item_id = ol.item_id
+GROUP BY c.customer_id
+ORDER BY total DESC
+LIMIT 3
+
+INSERT INTO orderinfo(customer_id, date_placed, date_shipped, shipping) VALUES( 1, '2026-06-05', '2026-06-05', 19);
+INSERT INTO orderline(orderinfo_id, item_id, quantity)
+VALUES(11,2,9),(11,3,2),(11,4,7);
