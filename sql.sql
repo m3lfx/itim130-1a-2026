@@ -820,4 +820,218 @@ Public Class Form1
     End Sub
 End Class
 
+Imports MySql.Data.MySqlClient
+Public Class Form2
+    Dim conn As MySqlConnection = New MySqlConnection("Data Source=localhost;Database=itim130ns;User=root;Password=;")
+    'Public dbconn As New MySqlConnection
+    Public sql As String
+    Public dbcomm As MySqlCommand
+    Public dbread As MySqlDataReader
+    Public DataAdapter1 As MySqlDataAdapter
+    Public ds As DataSet
+    Private Sub Form2_Load(sender As Object, e As EventArgs) Handles MyBase.Load, Button3.Click
+        Try
+            conn.Open()
+            'sql = "SELECT * FROM items ORDER BY item_id DESC"
+            sql = "SELECT i.item_id as 'item id', i.name AS 'product name', i.cost_price AS cost, i.sell_price AS 'selling price', s.quantity, i.supplier_name as supplier FROM items i INNER JOIN stocks s ON (i.item_id = s.item_id) 
+ORDER BY i.item_id DESC"
+
+            DataAdapter1 = New MySqlDataAdapter(sql, conn)
+            ds = New DataSet()
+            DataAdapter1.Fill(ds, "items")
+            DataGridView1.DataSource = ds
+            DataGridView1.DataMember = "items"
+
+            dbcomm = New MySqlCommand(sql, conn)
+            dbread = dbcomm.ExecuteReader()
+
+            While dbread.Read()
+                ComboBox1.Items.Add(dbread("item id"))
+
+            End While
+
+
+        Catch ex As Exception
+            MsgBox("Error in collecting data from Database. Error is :" & ex.Message)
+
+        End Try
+        conn.Close()
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Try
+            conn.Open()
+            TextBox1.Text.Trim()
+
+            sql = $"INSERT INTO items (name, cost_price, sell_price, supplier_name) VALUES('{TextBox1.Text.Trim()}', {Convert.ToDecimal(TextBox2.Text)}, {Convert.ToDecimal(TextBox3.Text)}, '{TextBox4.Text}')"
+            Label1.Text = sql
+            dbcomm = New MySqlCommand(sql, conn)
+            Dim i As Integer = dbcomm.ExecuteNonQuery
+
+            If (i > 0) Then
+                MsgBox("record saved")
+            Else
+                MsgBox("record not saved")
+
+            End If
+
+            sql = $"INSERT INTO stocks (item_id, quantity) VALUES(LAST_INSERT_ID(), {Val(NumericUpDown1.Value)} )"
+            Label1.Text = sql
+            dbcomm = New MySqlCommand(sql, conn)
+            i = dbcomm.ExecuteNonQuery
+
+            If (i > 0) Then
+                MsgBox("record saved")
+            Else
+                MsgBox("record not saved")
+
+            End If
+
+        Catch ex As MySqlException
+            MsgBox(ex.Message)
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+        conn.Close()
+
+    End Sub
+
+    Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
+        Try
+            conn.Open()
+            sql = $"SELECT i.item_id as 'item id', i.name AS 'product name', i.cost_price AS cost, i.sell_price AS 'selling price', s.quantity, i.supplier_name FROM items i INNER JOIN stocks s ON (i.item_id = s.item_id) WHERE i.item_id = {Val(ComboBox1.Text)}"
+
+            dbcomm = New MySqlCommand(sql, conn)
+            dbread = dbcomm.ExecuteReader()
+            dbread.Read()
+
+            TextBox1.Text = dbread("product name")
+            TextBox2.Text = dbread("cost")
+            TextBox3.Text = dbread("selling price")
+            TextBox4.Text = dbread("supplier_name")
+            NumericUpDown1.Value = dbread("quantity")
+
+
+        Catch ex As MySqlException
+            MsgBox(ex.Message)
+        Catch ex As Exception
+            MsgBox(ex.Message)
+
+        End Try
+        conn.Close()
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        Try
+            conn.Open()
+            sql = $"UPDATE items SET name = '{TextBox1.Text}', cost_price = {Convert.ToDecimal(TextBox2.Text)}, sell_price = {Convert.ToDecimal(TextBox3.Text) }, supplier_name = '{TextBox4.Text}' WHERE item_id = {Val(ComboBox1.SelectedItem)}"
+            Label1.Text = sql
+            dbcomm = New MySqlCommand(sql, conn)
+            Dim i As Integer = dbcomm.ExecuteNonQuery
+
+            If (i > 0) Then
+                MsgBox("record saved")
+            Else
+                MsgBox("record not saved")
+
+            End If
+
+            sql = $"UPDATE stocks SET quantity = {Val(NumericUpDown1.Value)} WHERE item_id = {Val(ComboBox1.SelectedItem)}"
+            Label1.Text = sql
+            dbcomm = New MySqlCommand(sql, conn)
+            i = dbcomm.ExecuteNonQuery
+
+            If (i > 0) Then
+                MsgBox("record saved")
+            Else
+                MsgBox("record not saved")
+
+            End If
+
+        Catch ex As MySqlException
+            MsgBox(ex.Message)
+        Catch ex As Exception
+            MsgBox(ex.Message)
+
+        End Try
+        conn.Close()
+
+    End Sub
+
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        Try
+            conn.Open()
+            sql = $"DELETE FROM stocks WHERE item_id = {Val(ComboBox1.SelectedItem)}"
+            Label1.Text = sql
+            dbcomm = New MySqlCommand(sql, conn)
+            Dim i As Integer = dbcomm.ExecuteNonQuery
+
+            If (i > 0) Then
+                MsgBox("stock deleted")
+            Else
+                MsgBox("stock not deleted")
+
+            End If
+
+            sql = $"DELETE FROM orderline WHERE item_id = {Val(ComboBox1.SelectedItem)}"
+            dbcomm = New MySqlCommand(sql, conn)
+            i = dbcomm.ExecuteNonQuery
+
+            If (i > 0) Then
+                MsgBox("item orderline deleted")
+            Else
+                MsgBox("item orderline deleted")
+
+            End If
+
+            sql = $"DELETE FROM items WHERE item_id = {Val(ComboBox1.SelectedItem)}"
+            dbcomm = New MySqlCommand(sql, conn)
+            i = dbcomm.ExecuteNonQuery
+
+            If (i > 0) Then
+                MsgBox("item deleted")
+            Else
+                MsgBox("item not deleted")
+
+            End If
+            TextBox1.Clear()
+            TextBox2.Clear()
+            TextBox3.Clear()
+            TextBox4.Clear()
+            NumericUpDown1.Value = 0
+
+
+
+        Catch ex As MySqlException
+            MsgBox(ex.Message)
+        Catch ex As Exception
+            MsgBox(ex.Message)
+
+        End Try
+        conn.Close()
+
+    End Sub
+
+    Private Sub TextBox5_TextChanged(sender As Object, e As EventArgs) Handles TextBox5.TextChanged
+        Try
+            conn.Open()
+            'sql = "SELECT * FROM items ORDER BY item_id DESC"
+            sql = $"SELECT i.item_id as 'item id', i.name AS 'product name', i.cost_price AS cost, i.sell_price AS 'selling price', s.quantity, i.supplier_name as supplier FROM items i INNER JOIN stocks s ON (i.item_id = s.item_id) WHERE i.name LIKE '%{TextBox5.Text}%' ORDER BY i.item_id DESC"
+
+            DataAdapter1 = New MySqlDataAdapter(sql, conn)
+            ds = New DataSet()
+            DataAdapter1.Fill(ds, "items search")
+            DataGridView1.DataSource = ds
+            DataGridView1.DataMember = "items search"
+
+        Catch ex As MySqlException
+            MsgBox("Error in collecting data from Database. Error is :" & ex.Message)
+        Catch ex As Exception
+            MsgBox("Error in collecting data from Database. Error is :" & ex.Message)
+
+        End Try
+        conn.Close()
+    End Sub
+End Class
+
 
