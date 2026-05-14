@@ -569,12 +569,19 @@ from item
 SELECT min(sell_price)
 from item
 
-get the total amount paid for order number 6
-
+get the total amount paid for order number 7
+SELECT  sum(i.sell_price * ol.quantity) AS `total income`
+FROM item i INNER JOIN orderline ol ON i.item_id = ol.item_id
+WHERE ol.orderinfo_id = 7
 
 get the income of the shop
+SELECT  sum(i.sell_price * ol.quantity) AS `total income`
+FROM item i INNER JOIN orderline ol ON i.item_id = ol.item_id
 
 get the total for each order
+SELECT  sum(i.sell_price * ol.quantity) AS `total income`, ol.orderinfo_id
+FROM item i INNER JOIN orderline ol ON i.item_id = ol.item_id
+GROUP BY ol.orderinfo_id
 
 what is the income for the month of september
 
