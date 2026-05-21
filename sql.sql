@@ -1196,4 +1196,31 @@ Public Class Form3
     End Sub
 End Class
 
+fetch all customers and orders and compute total
+
+SELECT o.orderinfo_id, concat(c.fname, " ", c.lname) AS name, concat(c.addressline, " ", c.town, " ", c.zipcode) AS address, sum(i.sell_price * ol.quantity) as total, o.status
+FROM customer c INNER JOIN orderinfo o ON c.customer_id = o.customer_id
+INNER JOIN orderline ol ON o.orderinfo_id = ol.orderinfo_id
+INNER JOIN item i ON i.item_id = ol.item_id
+GROUP BY ol.orderinfo_id
+WHERE o.status='processing'
+
+Private Sub DataGridView1_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellContentClick
+        cboStatus.SelectedText = ""
+        DataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        If e.RowIndex >= 0 Then
+            Dim selectedRow As DataGridViewRow = DataGridView1.Rows(e.RowIndex)
+
+            ' Use column index or name to retrieve values
+            txtOrderId.Text = selectedRow.Cells("orderinfo_id").Value.ToString()
+            txtName.Text = selectedRow.Cells("name").Value.ToString() ' Using index
+            Label1.Text = selectedRow.Cells("total").Value.ToString()
+
+
+
+            cboStatus.SelectedText = selectedRow.Cells("status").Value.ToString()
+        End If
+    End Sub
+
+
 
