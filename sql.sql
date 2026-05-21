@@ -1222,5 +1222,31 @@ Private Sub DataGridView1_CellContentClick(sender As Object, e As DataGridViewCe
         End If
     End Sub
 
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Try
+            conn.Open()
+            sql = $"UPDATE orderinfo SET status = '{cboStatus.SelectedItem}' WHERE orderinfo_id = {Val(txtOrderId.Text)} "
+            dbcomm = New MySqlCommand(sql, conn)
+            Dim i As Integer = dbcomm.ExecuteNonQuery
+
+            If (i > 0) Then
+                MsgBox("record saved")
+            Else
+                MsgBox("record not saved")
+
+            End If
+
+        Catch ex As MySqlException
+            MsgBox(ex.Message)
+            conn.Close()
+        Catch ex As Exception
+            MsgBox(ex.Message)
+            conn.Close()
+
+        End Try
+        conn.Close()
+
+    End Sub
+
 
 
