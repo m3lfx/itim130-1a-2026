@@ -1159,7 +1159,7 @@ Public Class Form3
             End If
 
             For Each row As DataGridViewRow In DataGridView1.Rows
-                sql = $"INSERT INTO orderline (orderinfo_id, item_id, quantity) VALUES(last_insert_id(), {row.Cells("item_id").Value}, {row.Cells("quantity").Value})"
+                sql = $"INSERT INTO orderline (orderinfo_id, item_id, quantity) VALUES(last_insert_id(), {val(row.Cells("item_id").Value}), {val(row.Cells("quantity").Value)})"
                 Label1.Text = sql
                 dbcomm = New MySqlCommand(sql, conn)
                 i = dbcomm.ExecuteNonQuery
